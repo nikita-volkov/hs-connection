@@ -5,6 +5,7 @@ import Data.Default
 import Prelude
 import qualified Data.ByteString.Char8 as ByteString
 import Network.Connection
+import System.Exit
 
 main = do
   ctx <- initConnectionContext
@@ -20,7 +21,12 @@ main = do
   connectionPut con $ ByteString.replicate 30000 'z'
   traceM "- send"
   traceM "+ recv"
-  r <- connectionGetChunk con
-  traceM "- recv"
-  ByteString.putStrLn r
-  connectionClose con
+  avail <- connectionWaitForInput con 30000
+  if avail
+    then do
+      r <- connectionGetChunk con
+      traceM "- recv"
+      putStrLn "Printing response:"
+      ByteString.putStrLn r
+      connectionClose con
+    else die "Timeout"
