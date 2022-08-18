@@ -17,10 +17,10 @@ main = do
           connectionUseSocks = Nothing
         }
   traceM "+ send"
-  connectionPut con $ ByteString.replicate 10000 'z'
+  connectionPut con $ ByteString.replicate 30000 'z'
   traceM "- send"
   traceM "+ recv"
-  r <- connectionGet con 200
+  r <- connectionGetChunk con
   traceM "- recv"
   ByteString.putStrLn r
   connectionClose con
