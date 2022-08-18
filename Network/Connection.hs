@@ -251,9 +251,7 @@ connectionPut :: Connection -> ByteString -> IO ()
 connectionPut connection content = withBackend doWrite connection
     where doWrite (ConnectionStream h) = B.hPut h content >> hFlush h
           doWrite (ConnectionSocket s) = N.sendAll s content
-          doWrite (ConnectionTLS ctx)  = do
-            TLS.sendData ctx $ L.fromChunks [content]
-            TLS.contextFlush ctx
+          doWrite (ConnectionTLS ctx)  = TLS.sendData ctx $ L.fromChunks [content]
 
 -- | Get exact count of bytes from a connection.
 --
