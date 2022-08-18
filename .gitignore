@@ -4,3 +4,4 @@ dist
 *.tix
 *.mix
 .stack-work/
+stack.yaml.lock
