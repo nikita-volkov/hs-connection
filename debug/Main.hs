@@ -11,7 +11,7 @@ main = do
   con <-
     connectTo ctx $
       ConnectionParams
-        { connectionHostname = "apigw.yandexcloud.net",
+        { connectionHostname = "d5dse1mp8tvk14hqu5cl.apigw.yandexcloud.net",
           connectionPort = 443,
           connectionUseSecure = Just $ def,
           connectionUseSocks = Nothing
