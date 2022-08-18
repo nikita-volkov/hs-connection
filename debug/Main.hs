@@ -21,7 +21,7 @@ main = do
   connectionPut con $ ByteString.replicate 30000 'z'
   traceM "- send"
   traceM "+ recv"
-  avail <- connectionWaitForInput con 30000
+  avail <- connectionWaitForInput con 15000
   if avail
     then do
       r <- connectionGetChunk con
