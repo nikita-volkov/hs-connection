@@ -51,6 +51,7 @@ module Network.Connection
     , connectionSessionManager
     ) where
 
+import Debug.Trace
 import Control.Concurrent.MVar
 import Control.Monad (join)
 import qualified Control.Exception as E
@@ -322,7 +323,11 @@ connectionGetChunkBase loc conn f =
               | otherwise ->
                   updateBuf buf
   where
-    getMoreData (ConnectionTLS tlsctx) = TLS.recvData tlsctx
+    getMoreData (ConnectionTLS tlsctx) = do
+      traceM "+ recvData"
+      r <- TLS.recvData tlsctx
+      traceM $ "- recvData: len: " <> show (B.length r) 
+      return r
     getMoreData (ConnectionSocket sock) = N.recv sock 1500
     getMoreData (ConnectionStream h)   = B.hGetSome h (16 * 1024)
 
