@@ -29,4 +29,4 @@ main = do
       putStrLn "Printing response:"
       ByteString.putStrLn r
       connectionClose con
-    else die "Timeout"
+    else die "Timed out"
