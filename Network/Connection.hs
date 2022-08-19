@@ -324,9 +324,7 @@ connectionGetChunkBase loc conn f =
                   updateBuf buf
   where
     getMoreData (ConnectionTLS tlsctx) = do
-      traceM "+ recvData"
       r <- TLS.recvData tlsctx
-      traceM $ "- recvData: len: " <> show (B.length r) 
       return r
     getMoreData (ConnectionSocket sock) = N.recv sock 1500
     getMoreData (ConnectionStream h)   = B.hGetSome h (16 * 1024)
