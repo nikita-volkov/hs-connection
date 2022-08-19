@@ -13,29 +13,27 @@ main = do
   test 30000
 
 test requestSize = do
-    putStrLn $ "Testing with request of size " <> show requestSize
-    ctx <- initConnectionContext
-    con <-
-      connectTo ctx $
-        ConnectionParams
-          { connectionHostname = "apigw.yandexcloud.net",
-            connectionPort = 443,
-            connectionUseSecure = Just $ def,
-            connectionUseSocks = Nothing
-          }
+  traceM $ "Testing with request of size " <> show requestSize
+  ctx <- initConnectionContext
+  con <-
+    connectTo ctx $
+      ConnectionParams
+        { connectionHostname = "apigw.yandexcloud.net",
+          connectionPort = 443,
+          connectionUseSecure = Just $ def,
+          connectionUseSocks = Nothing
+        }
 
-    putStrLn "Sending"
-    connectionPut con $ ByteString.replicate requestSize 'z'
+  traceM "Sending"
+  connectionPut con $ ByteString.replicate requestSize 'z'
 
-    putStrLn "Receiving"
-    res <- timeoutInSeconds 15 $ connectionGetChunk con
-    res <- case res of
-      Nothing -> die "Timeout"
-      Just res -> return res
+  traceM "Receiving"
+  res <- timeoutInSeconds 15 $ connectionGetChunk con
+  res <- case res of
+    Nothing -> die "Timed out"
+    Just res -> return res
 
-    putStrLn "Printing response:"
-    ByteString.putStrLn res
+  traceM $ "Got response: " <> ByteString.unpack (ByteString.take 13 res) <> "..."
 
 timeoutInSeconds seconds =
   timeout (seconds * 1000000)
-
