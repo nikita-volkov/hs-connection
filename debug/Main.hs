@@ -23,8 +23,11 @@ test requestSize = do
             connectionUseSecure = Just $ def,
             connectionUseSocks = Nothing
           }
+
+    putStrLn "Sending"
     connectionPut con $ ByteString.replicate requestSize 'z'
 
+    putStrLn "Receiving"
     res <- timeoutInSeconds 15 $ connectionGetChunk con
     res <- case res of
       Nothing -> die "Timeout"
