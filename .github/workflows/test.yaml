@@ -13,3 +13,9 @@ jobs:
     steps:
       - run: |
           openssl rand -hex 30000 | curl -v --no-progress-meter -X POST --data-binary @- https://apigw.yandexcloud.net
+
+  tracepath:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          tracepath apigw.yandexcloud.net
