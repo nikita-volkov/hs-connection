@@ -6,10 +6,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          openssl rand -hex 1000 | curl -v -X POST --data-binary @- https://apigw.yandexcloud.net
+          openssl rand -hex 1000 | curl -v --no-progress-meter -X POST --data-binary @- https://apigw.yandexcloud.net
 
   ubuntu-curl-30k:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          openssl rand -hex 30000 | curl -v -X POST --data-binary @- https://apigw.yandexcloud.net
+          openssl rand -hex 30000 | curl -v --no-progress-meter -X POST --data-binary @- https://apigw.yandexcloud.net
