@@ -2,52 +2,14 @@
 on: push
 
 jobs:
-  ubuntu:
+  ubuntu-curl-1k:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/cache@v3
-        with:
-          path: |
-            ~/.stack
-            .stack-work
-          key: ${{ runner.os }}-${{ hashFiles('stack.yaml.lock') }}-${{ hashFiles('**.cabal') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ hashFiles('stack.yaml.lock') }}-${{ hashFiles('**.cabal') }}
-            ${{ runner.os }}-${{ hashFiles('stack.yaml.lock') }}-
-            ${{ runner.os }}-
-      - run: stack test
+      - run: |
+          openssl rand -hex 1000 | curl -v -X POST --data-binary @- https://apigw.yandexcloud.net
 
-  macos:
-    runs-on: macos-latest
+  ubuntu-curl-30k:
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/cache@v3
-        with:
-          path: |
-            ~/.stack
-            .stack-work
-          key: ${{ runner.os }}-${{ hashFiles('stack.yaml.lock') }}-${{ hashFiles('**.cabal') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ hashFiles('stack.yaml.lock') }}-${{ hashFiles('**.cabal') }}
-            ${{ runner.os }}-${{ hashFiles('stack.yaml.lock') }}-
-            ${{ runner.os }}-
-      - run: stack test
-
-  windows:
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/cache@v3
-        with:
-          path: |
-            ~\.stack
-            ~\AppData\Roaming\stack
-            ~\AppData\Local\Programs\stack
-            .stack-work
-          key: ${{ runner.os }}-${{ hashFiles('stack.yaml.lock') }}-${{ hashFiles('**.cabal') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ hashFiles('stack.yaml.lock') }}-${{ hashFiles('**.cabal') }}
-            ${{ runner.os }}-${{ hashFiles('stack.yaml.lock') }}-
-            ${{ runner.os }}-
-      - run: stack test
+      - run: |
+          openssl rand -hex 30000 | curl -v -X POST --data-binary @- https://apigw.yandexcloud.net
