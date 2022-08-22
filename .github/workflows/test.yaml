@@ -19,3 +19,9 @@ jobs:
     steps:
       - run: |
           tracepath apigw.yandexcloud.net
+
+  traceroute:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          traceroute apigw.yandexcloud.net
